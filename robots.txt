@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ker6jobert.github.io/m-threecardpoker-com-2/sitemap.xml

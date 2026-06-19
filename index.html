@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <title>炸金花游戏 · 站点介绍与知识库</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #f0f6fa;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1a2b3c;
+      line-height: 1.6;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* 网格卡片容器 */
+    .grid-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 8px 24px rgba(0, 30, 40, 0.06), 0 2px 6px rgba(0, 50, 70, 0.03);
+      transition: box-shadow 0.2s;
+    }
+
+    .grid-card:hover {
+      box-shadow: 0 12px 32px rgba(10, 80, 100, 0.10);
+    }
+
+    /* 网格布局 */
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin: 30px 0;
+    }
+
+    @media (min-width: 600px) {
+      .grid-layout {
+        grid-template-columns: 1fr 1fr;
+      }
+      .grid-layout .span-full {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .grid-layout {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .grid-layout .span-two {
+        grid-column: span 2;
+      }
+    }
+
+    /* hero / 头部信息 */
+    .hero-title {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #104050;
+      margin-bottom: 8px;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: #2d5770;
+      background: rgba(20, 110, 130, 0.06);
+      display: inline-block;
+      padding: 0 12px;
+      border-radius: 40px;
+      font-weight: 450;
+      margin-top: 4px;
+    }
+
+    .site-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 16px 0 8px;
+    }
+
+    .badge-dot {
+      background: #1a7f8f;
+      width: 10px;
+      height: 10px;
+      border-radius: 20px;
+    }
+
+    .badge-text {
+      font-size: 0.9rem;
+      color: #1b5c6b;
+    }
+
+    /* 卡片内部元素 */
+    .card-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #258090;
+      font-weight: 600;
+      margin-bottom: 8px;
+      border-bottom: 2px solid rgba(46, 134, 152, 0.20);
+      padding-bottom: 6px;
+      display: inline-block;
+    }
+
+    .card-heading {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 10px 0 6px;
+      color: #10323f;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: #264c5a;
+      margin: 8px 0 6px;
+    }
+
+    .info-list {
+      list-style: none;
+      margin-top: 8px;
+    }
+
+    .info-list li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 6px;
+      font-size: 0.92rem;
+      color: #1e4757;
+    }
+
+    .info-list li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: #1b889b;
+      font-weight: 600;
+    }
+
+    .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 8px;
+    }
+
+    .tag {
+      background: #e7f0f4;
+      color: #125a6b;
+      padding: 4px 14px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .tag-bluegreen {
+      background: #d0e9ef;
+      color: #0a4d5c;
+    }
+
+    .link-embed {
+      color: #07758b;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1.5px solid rgba(8, 112, 133, 0.25);
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .link-embed:hover {
+      color: #023d4a;
+      border-bottom-color: #023d4a;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #d7e3e8;
+      padding: 12px 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-q {
+      font-weight: 600;
+      color: #103d4b;
+      font-size: 0.95rem;
+    }
+
+    .faq-a {
+      font-size: 0.9rem;
+      color: #2b5e6d;
+      margin-top: 4px;
+    }
+
+    .callout {
+      background: linear-gradient(145deg, #e7f3f7, #dbeef2);
+      border-left: 5px solid #2b9aaf;
+      padding: 16px 18px;
+      border-radius: 20px;
+      margin: 18px 0 6px;
+    }
+
+    .callout p {
+      font-size: 0.92rem;
+      color: #124652;
+    }
+
+    .action-bar {
+      margin: 12px 0 0;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: linear-gradient(to right, #b8d3db, transparent);
+      margin: 24px 0 16px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.85rem;
+      color: #4a6a78;
+      text-align: center;
+      border-top: 1px solid #c7dae2;
+      padding-top: 24px;
+    }
+
+    /* 移动端微调 */
+    @media (max-width: 480px) {
+      .hero-title { font-size: 1.6rem; }
+      .grid-card { padding: 20px 16px; }
+      .callout { padding: 12px 14px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- hero 与站点标识 -->
+  <div class="grid-card" style="margin-bottom: 0;">
+    <div class="site-badge">
+      <span class="badge-dot"></span>
+      <span class="badge-text">游戏参考 / 知识说明</span>
+    </div>
+    <h1 class="hero-title">炸金花游戏 · 介绍与可信信息</h1>
+    <div class="hero-sub">三张牌比大小 · 经典玩法说明</div>
+    <p style="margin-top: 16px; font-size: 1rem; color: #1d4b5a; max-width: 680px;">
+      本站整合了与 <a href="https://m-threecardpoker.com" class="link-embed">炸金花游戏</a> 相关的规则说明、术语记录及常见问题参考。
+      以下内容从站点介绍与可信说明角度整理，帮助玩家快速理解玩法结构与信息获取方式。
+    </p>
+  </div>
+
+  <!-- 网格卡片区域：目录感布局，说明区、提示区、相关信息区 -->
+  <div class="grid-layout">
+
+    <!-- 卡片 1：规则说明区 -->
+    <div class="grid-card">
+      <span class="card-label">📘 说明区</span>
+      <h2 class="card-heading">基本规则与牌型</h2>
+      <p class="card-desc">
+        炸金花使用一副扑克（去除大小王），每人发三张牌，通过牌型组合比大小。
+        常见牌型由强至弱：豹子、同花顺、金花、顺子、对子、散牌。
+      </p>
+      <ul class="info-list">
+        <li>豹子：三张相同点数，如 AAA</li>
+        <li>同花顺：同一花色且三张连续</li>
+        <li>金花：同一花色非顺子</li>
+        <li>顺子：三张连续点数（不分花色）</li>
+      </ul>
+      <div class="tag-group">
+        <span class="tag">牌型概率</span>
+        <span class="tag tag-bluegreen">比牌顺序</span>
+        <span class="tag">底池规则</span>
+      </div>
+    </div>
+
+    <!-- 卡片 2：特点与机制区（信息密度较高） -->
+    <div class="grid-card">
+      <span class="card-label">⚙️ 机制特点</span>
+      <h2 class="card-heading">玩法与策略提示</h2>
+      <p class="card-desc">
+        游戏核心在于心理博弈与牌型判断。玩家可选择看牌、比牌、加注或弃牌。
+        同花率、位置、下注节奏均影响决策。
+      </p>
+      <ul class="info-list">
+        <li>看牌后下注额通常为明牌的两倍</li>
+        <li>比牌时输家弃牌，赢家继续</li>
+        <li>可设定封顶轮数或限制加注次数</li>
+      </ul>
+      <div class="callout" style="margin: 10px 0 0;">
+        <p><strong>提示：</strong>不同房间或版本可能调整比牌规则，建议对局前确认具体约定。</p>
+      </div>
+    </div>
+
+    <!-- 卡片 3：相关信息区（FAQ 摘要 + 场景） -->
+    <div class="grid-card">
+      <span class="card-label">❓ FAQ 摘要</span>
+      <div class="faq-item">
+        <div class="faq-q">Q: 炸金花中235能赢豹子吗？</div>
+        <div class="faq-a">传统规则中，部分变体设定235为特殊牌型可击败豹子，但非通用标准。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: 同花顺与豹子哪个更大？</div>
+        <div class="faq-a">多数规则中豹子最大，同花顺次之，但存在地区差异。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: 是否有官方统一规则？</div>
+        <div class="faq-a">炸金花无国际统一规则，不同平台或线下团体采用的具体条款可能不同。</div>
+      </div>
+      <p style="margin-top: 8px; font-size: 0.9rem; color: #154c5a;">
+        更多术语与常见局内情形可参考主站信息。
+      </p>
+    </div>
+
+    <!-- 卡片 4：提示区 + 站点可信说明（跨列） -->
+    <div class="grid-card span-full" style="background: #f6fbfd;">
+      <span class="card-label">📌 提示区 · 可信说明</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
+        <div style="flex: 2; min-width: 200px;">
+          <h2 class="card-heading" style="margin-top: 0;">信息来源与参考原则</h2>
+          <p class="card-desc">
+            本站内容基于常见的炸金花规则整理，不承诺绝对权威性。玩家应在实际对局或登录 
+            <a href="https://m-threecardpoker.com" class="link-embed">炸金花游戏</a> 
+            平台前自行核实具体规则版本。所有涉及概率、策略的内容均来自公开资料及玩家社区总结，仅供参考。
+          </p>
+          <p class="card-desc" style="margin-top: 10px;">
+            我们不诱导充值、不承诺胜率，也无意替代任何官方规则文档。请理性游戏，享受牌局乐趣。
+          </p>
+        </div>
+        <div style="flex: 1; min-width: 140px; background: #dceef3; border-radius: 20px; padding: 14px 16px;">
+          <span style="font-weight: 600; color: #0b4a58;">✔ 可信提示</span>
+          <ul style="list-style: none; margin-top: 6px; font-size: 0.88rem; color: #1a4f60;">
+            <li style="padding: 3px 0;">• 规则透明</li>
+            <li style="padding: 3px 0;">• 不虚构概率</li>
+            <li style="padding: 3px 0;">• 无夸张承诺</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 卡片 5：常见场景 / 补充信息区 (双列占位) -->
+    <div class="grid-card span-two">
+      <span class="card-label">🎯 常见游戏场景</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <div style="flex: 1; min-width: 140px;">
+          <h3 style="font-size: 1rem; color: #0d4353; margin-bottom: 6px;">线下朋友局</h3>
+          <p style="font-size: 0.9rem; color: #1f5768;">约定好底注与封顶，使用标准牌型规则，适合3-6人。</p>
+        </div>
+        <div style="flex: 1; min-width: 140px;">
+          <h3 style="font-size: 1rem; color: #0d4353; margin-bottom: 6px;">在线练习</h3>
+          <p style="font-size: 0.9rem; color: #1f5768;">通过模拟器或平台，熟悉牌型概率与加注节奏。</p>
+        </div>
+        <div style="flex: 1; min-width: 140px;">
+          <h3 style="font-size: 1rem; color: #0d4353; margin-bottom: 6px;">赛事规则</h3>
+          <p style="font-size: 0.9rem; color: #1f5768;">部分锦标赛引入时间限制、记分牌以及特殊比牌顺序。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 卡片 6：附加提示区 (网格内单独) -->
+    <div class="grid-card">
+      <span class="card-label">⚠️ 附加说明</span>
+      <div class="callout" style="background: #e5f1f5; border-left-color: #2f96ab;">
+        <p><strong>理性参考：</strong> 炸金花游戏中不存在“必胜策略”，所有决策均包含运气成分。请勿轻信所谓“稳赢公式”。</p>
+      </div>
+      <p style="font-size: 0.88rem; margin-top: 8px; color: #215f71;">
+        如想获取更详细的术语表或规则对比，可浏览主站 
+        <a href="https://m-threecardpoker.com" class="link-embed">炸金花游戏</a> 
+        相关栏目。
+      </p>
+    </div>
+  </div>
+
+  <!-- 底部总结性分割 -->
+  <hr>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; font-size: 0.9rem; color: #1f5263;">
+    <div>
+      <span style="font-weight: 500;">知识库入口式页面</span> — 目录感布局、说明区、提示区、相关信息区。
+    </div>
+    <div>
+      主题：站点介绍与可信说明 · 视觉：蓝绿色点缀 · 网格卡片
+    </div>
+  </div>
+
+  <footer>
+    <p>页面内容仅作信息参考 · 实际规则以各平台公布为准 · <a href="https://m-threecardpoker.com" class="link-embed">炸金花游戏</a> 主站提供更多详情</p>
+    <p style="margin-top: 10px;">© 信息整合页 · 仅供知识分享</p>
+  </footer>
+
+</div>
+</body>
+</html>
